@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: cleanarc
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:cleanarc
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: ture
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace
+
+
