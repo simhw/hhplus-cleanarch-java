@@ -90,4 +90,32 @@ public class EnrollmentIntegrationTest {
 
         Assertions.assertThat(success.get()).isEqualTo(30);
     }
+
+    @Test
+    @DisplayName("동일한 회원이 동시에 강의 5번 신청 시 1번만 강의 신청에 성공한다.")
+    void 강의_등록_중복() throws InterruptedException {
+        ExecutorService es = Executors.newFixedThreadPool(5);
+        CountDownLatch countDownLatch = new CountDownLatch(5);
+        AtomicInteger success = new AtomicInteger(0);
+
+        // when
+        for (long i = 1; i <= 5; i++) {
+            es.submit(() -> {
+                try {
+                    enrollmentFacade.enroll(new EnrollmentDto.EnrollmentRequest(1L, 1L, 1L));
+                    success.incrementAndGet();
+
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                } finally {
+                    countDownLatch.countDown();
+                }
+            });
+        }
+
+        countDownLatch.await();
+        es.shutdown();
+
+        Assertions.assertThat(success.get()).isEqualTo(1);
+    }
 }
