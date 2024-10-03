@@ -5,10 +5,10 @@ import com.example.cleanarch.appliction.enrollment.EnrollmentFacade;
 import com.example.cleanarch.domain.lecture.Lecture;
 import com.example.cleanarch.domain.lecture.LectureOption;
 import com.example.cleanarch.domain.user.User;
-import com.example.cleanarch.infra.enrollment.EnrollmentJpaRepository;
 import com.example.cleanarch.infra.lecture.LectureJpaRepository;
 import com.example.cleanarch.infra.user.UserJpaRepository;
 import com.example.cleanarch.interfaces.enrollment.EnrollmentDto;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,9 +33,6 @@ public class EnrollmentIntegrationTest {
 
     @Autowired
     private LectureJpaRepository lectureJpaRepository;
-
-    @Autowired
-    private EnrollmentJpaRepository enrollmentJpaRepository;
 
     @BeforeEach
     void init() {
@@ -66,7 +63,7 @@ public class EnrollmentIntegrationTest {
     }
 
     @Test
-    @DisplayName("40명의 회원이 동시에 강의 신청")
+    @DisplayName("40명의 회원이 동시에 강의 신청 시 30명만 강의 신청에 성공한다.")
     void 강의_등록() throws InterruptedException {
         ExecutorService es = Executors.newFixedThreadPool(40);
         CountDownLatch countDownLatch = new CountDownLatch(40);
@@ -91,6 +88,34 @@ public class EnrollmentIntegrationTest {
         countDownLatch.await();
         es.shutdown();
 
-        System.out.println("successful enrollments: " + success.get());
+        Assertions.assertThat(success.get()).isEqualTo(30);
+    }
+
+    @Test
+    @DisplayName("동일한 회원이 동시에 강의 5번 신청 시 1번만 강의 신청에 성공한다.")
+    void 강의_등록_중복() throws InterruptedException {
+        ExecutorService es = Executors.newFixedThreadPool(5);
+        CountDownLatch countDownLatch = new CountDownLatch(5);
+        AtomicInteger success = new AtomicInteger(0);
+
+        // when
+        for (long i = 1; i <= 5; i++) {
+            es.submit(() -> {
+                try {
+                    enrollmentFacade.enroll(new EnrollmentDto.EnrollmentRequest(1L, 1L, 1L));
+                    success.incrementAndGet();
+
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                } finally {
+                    countDownLatch.countDown();
+                }
+            });
+        }
+
+        countDownLatch.await();
+        es.shutdown();
+
+        Assertions.assertThat(success.get()).isEqualTo(1);
     }
 }
