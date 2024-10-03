@@ -36,16 +36,11 @@ public class Enrollment {
     protected Enrollment() {
     }
 
-    public Enrollment(Long id, User user, Lecture lecture, LectureOption option) {
+    public void Enroll(Long id, User user, Lecture lecture, LectureOption option) {
         this.id = id;
         this.user = user;
         this.lecture = lecture;
         this.option = option;
     }
 
-    public Enrollment(User user, Lecture lecture, LectureOption option) {
-        this.user = user;
-        this.lecture = lecture;
-        this.option = option;
-    }
 }

@@ -11,7 +11,6 @@ import lombok.Getter;
 public class Instructor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "instructor_id")
     private Long id;
 
     private String name;
