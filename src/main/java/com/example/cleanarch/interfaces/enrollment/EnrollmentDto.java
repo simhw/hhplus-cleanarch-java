@@ -4,6 +4,7 @@ import com.example.cleanarch.domain.Instructor;
 import com.example.cleanarch.domain.enrollment.Enrollment;
 import com.example.cleanarch.domain.lecture.Lecture;
 import com.example.cleanarch.domain.lecture.LectureOption;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -11,6 +12,14 @@ import java.time.LocalDateTime;
 
 @Data
 public class EnrollmentDto {
+    @Data
+    @AllArgsConstructor
+    public static class EnrollmentRequest {
+        private Long userId;
+        private Long lectureId;
+        private Long lectureOptionId;
+    }
+
     @Data
     public static class EnrollmentResponse {
         private Long id;

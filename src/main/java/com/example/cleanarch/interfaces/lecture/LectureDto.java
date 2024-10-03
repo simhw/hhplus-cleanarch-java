@@ -5,6 +5,8 @@ import com.example.cleanarch.domain.lecture.Lecture;
 import com.example.cleanarch.domain.lecture.LectureOption;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class LectureDto {
         private String title;
         private String description;
         private Instructor instructor;
-        private List<LectureOptionDto.LectureOptionResponse> options = new ArrayList<>();
+        private List<LectureOptionResponse> options = new ArrayList<>();
 
         public LectureResponse(Lecture lecture) {
             this.id = lecture.getId();
@@ -28,9 +30,23 @@ public class LectureDto {
 
         public void setOptions(List<LectureOption> options) {
             for (LectureOption option : options) {
-                this.options.add(new LectureOptionDto.LectureOptionResponse(option));
+                this.options.add(new LectureOptionResponse(option));
             }
         }
     }
 
+    @Data
+    public static class LectureOptionResponse {
+        private Long id;
+        private LocalDate date;
+        private LocalDateTime startAt;
+        private LocalDateTime endAt;
+
+        public LectureOptionResponse(LectureOption option) {
+            this.id = option.getId();
+            this.date = option.getDate();
+            this.startAt = option.getStartAt();
+            this.endAt = option.getEndAt();
+        }
+    }
 }
