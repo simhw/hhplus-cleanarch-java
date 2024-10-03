@@ -36,7 +36,7 @@ public class Lecture {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "lecture_id")
     private List<LectureOption> options = new ArrayList<>();
 
@@ -56,25 +56,22 @@ public class Lecture {
 
     private void setOptions(List<LectureOption> options) {
         if (options == null || options.isEmpty())
-            throw new RuntimeException("no options");
+            throw new RuntimeException("option is empty");
         this.options = options;
     }
 
-    public LectureOption findOption(Long optionId) {
-        return options.stream()
-                .filter(opt -> opt.getId().equals(optionId))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("no option"));
-    }
-
     public void verifyEnrollmentAvailable(LocalDateTime now) {
-        List<LectureOption> verified = this.options.stream()
-                .filter(opt -> opt.isNotFull())
-                .filter(opt -> opt.isNotExpired(now))
+        this.options = this.options.stream()
+                .filter(this::isNotFull)
+                .filter(option -> this.isNotExpired(option, now))
                 .toList();
-
-        this.options.clear();
-        this.options.addAll(verified);
     }
 
+    public boolean isNotFull(LectureOption option) {
+        return option.getSeats() > 0;
+    }
+
+    public boolean isNotExpired(LectureOption option, LocalDateTime now) {
+        return option.getEndAt().isAfter(now);
+    }
 }

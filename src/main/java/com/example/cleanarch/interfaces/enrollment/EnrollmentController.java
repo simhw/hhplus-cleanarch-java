@@ -3,7 +3,10 @@ package com.example.cleanarch.interfaces.enrollment;
 import com.example.cleanarch.appliction.enrollment.EnrollmentFacade;
 import com.example.cleanarch.domain.enrollment.Enrollment;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -21,8 +24,8 @@ public class EnrollmentController {
      */
     @GetMapping("/user/{userId}")
     public List<EnrollmentDto.EnrollmentResponse> enrollments(@PathVariable(name = "userId") Long userId) {
-        List<Enrollment> enrollments = enrollmentFacade.enrollments(userId);
-        List<EnrollmentDto.EnrollmentResponse> result = enrollments.stream()
+        List<Enrollment> lectures = enrollmentFacade.lectures(userId);
+        List<EnrollmentDto.EnrollmentResponse> result = lectures.stream()
                 .map(EnrollmentDto.EnrollmentResponse::new)
                 .toList();
 
@@ -34,9 +37,6 @@ public class EnrollmentController {
      *
      * @param request
      */
-    @PostMapping("")
-    public Long enroll(@RequestBody EnrollmentDto.EnrollmentRequest request) {
-        Enrollment enrollment = enrollmentFacade.enroll(request);
-        return enrollment.getId();
+    public void enroll(EnrollmentRequest request) {
     }
 }
