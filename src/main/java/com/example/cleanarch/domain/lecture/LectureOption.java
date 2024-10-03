@@ -18,6 +18,9 @@ public class LectureOption {
     @Column(name = "lecture_option_id")
     private Long id;
 
+    @Version
+    private Long version;
+
     @Description("잔여좌석")
     private Integer seats;
 
@@ -57,7 +60,7 @@ public class LectureOption {
 
     public void chargeSeats(LocalDateTime now) {
         if (!isNotFull() || !isNotExpired(now)) {
-            throw new RuntimeException("is not available lecture");
+            throw new NoAvailableSeats();
         }
 
         seats -= 1;

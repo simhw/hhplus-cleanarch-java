@@ -32,7 +32,6 @@ public class LectureService {
         return lectures;
     }
 
-    @Transactional(readOnly = true)
     public Lecture lecture(Long id) {
         return lectureRepository.findById(id);
     }

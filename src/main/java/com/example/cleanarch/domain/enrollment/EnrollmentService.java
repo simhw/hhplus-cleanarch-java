@@ -18,11 +18,7 @@ public class EnrollmentService {
         return enrollmentRepository.findByUser(user);
     }
 
-//    public Enrollment enrollment(User user, Lecture lecture) {
-//        return enrollmentRepository.findByUserAndLecture(user, lecture);
-//    }
-
-    public Long enroll(User user, Lecture lecture, LectureOption option) {
+    public Enrollment enroll(User user, Lecture lecture, LectureOption option) {
         Enrollment enrolled = enrollmentRepository.findByUserAndLecture(user, lecture);
 
         if (enrolled != null) {
@@ -30,7 +26,6 @@ public class EnrollmentService {
         }
 
         Enrollment enrollment = new Enrollment(user, lecture, option);
-        Enrollment saved = enrollmentRepository.save(enrollment);
-        return saved.getId();
+        return enrollmentRepository.save(enrollment);
     }
 }

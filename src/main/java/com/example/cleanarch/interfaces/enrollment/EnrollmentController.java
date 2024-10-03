@@ -13,6 +13,7 @@ import java.util.List;
 public class EnrollmentController {
 
     private final EnrollmentFacade enrollmentFacade;
+
     /**
      * 유저별 신청한 강의 목록 조회
      *
@@ -35,6 +36,7 @@ public class EnrollmentController {
      */
     @PostMapping("")
     public Long enroll(@RequestBody EnrollmentDto.EnrollmentRequest request) {
-        return enrollmentFacade.enroll(request);
+        Enrollment enrollment = enrollmentFacade.enroll(request);
+        return enrollment.getId();
     }
 }

@@ -79,7 +79,7 @@ public class EnrollmentServiceTest {
         when(enrollmentRepository.save(any())).thenReturn(enrollment);
 
         // when
-        Long enroll = enrollmentService.enroll(user, lecture, option1);
+        Long enroll = enrollmentService.enroll(user, lecture, option1).getId();
 
         // then
         assertThat(enrollment).isNotNull();

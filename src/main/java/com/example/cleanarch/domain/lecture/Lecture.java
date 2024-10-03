@@ -36,7 +36,7 @@ public class Lecture {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "lecture_id")
     private List<LectureOption> options = new ArrayList<>();
 
