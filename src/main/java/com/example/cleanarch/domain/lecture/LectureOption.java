@@ -46,4 +46,20 @@ public class LectureOption {
         this.startAt = startAt;
         this.endAt = endAt;
     }
+
+    public boolean isNotFull() {
+        return this.seats > 0;
+    }
+
+    public boolean isNotExpired(LocalDateTime now) {
+        return this.endAt.isAfter(now);
+    }
+
+    public void chargeSeats(LocalDateTime now) {
+        if (!isNotFull() || !isNotExpired(now)) {
+            throw new RuntimeException("is not available lecture");
+        }
+
+        seats -= 1;
+    }
 }

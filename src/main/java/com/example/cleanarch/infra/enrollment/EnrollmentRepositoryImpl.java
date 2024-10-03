@@ -2,9 +2,8 @@ package com.example.cleanarch.infra.enrollment;
 
 import com.example.cleanarch.domain.enrollment.Enrollment;
 import com.example.cleanarch.domain.enrollment.EnrollmentRepository;
+import com.example.cleanarch.domain.lecture.Lecture;
 import com.example.cleanarch.domain.user.User;
-import com.example.cleanarch.domain.user.UserRepository;
-import com.example.cleanarch.infra.user.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +18,14 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
     @Override
     public List<Enrollment> findByUser(User user) {
         return enrollmentJpaRepository.findByUser(user);
+    }
+
+    @Override
+    public Enrollment findByUserAndLecture(User user, Lecture lecture) {
+        return enrollmentJpaRepository.findByUserAndLecture(user, lecture);
+    }
+
+    public Enrollment save(Enrollment enrollment) {
+        return enrollmentJpaRepository.save(enrollment);
     }
 }

@@ -33,8 +33,7 @@ public class LectureService {
     }
 
     @Transactional(readOnly = true)
-    public Lecture lecture(Long lectureId) {
-        return lectureRepository.findById(lectureId);
+    public Lecture lecture(Long id) {
+        return lectureRepository.findById(id);
     }
-
 }

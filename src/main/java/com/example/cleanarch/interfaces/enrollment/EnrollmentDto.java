@@ -12,6 +12,13 @@ import java.time.LocalDateTime;
 @Data
 public class EnrollmentDto {
     @Data
+    public static class EnrollmentRequest {
+        private Long userId;
+        private Long lectureId;
+        private Long lectureOptionId;
+    }
+
+    @Data
     public static class EnrollmentResponse {
         private Long id;
         private LocalDateTime createdAt;
