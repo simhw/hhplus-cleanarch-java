@@ -35,4 +35,8 @@ public class LectureService {
     public Lecture lecture(Long id) {
         return lectureRepository.findById(id);
     }
+
+    public Lecture lectureForUpdate(Long id) {
+        return lectureRepository.findByIdForUpdate(id);
+    }
 }

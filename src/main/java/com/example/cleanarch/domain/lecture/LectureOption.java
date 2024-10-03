@@ -18,9 +18,6 @@ public class LectureOption {
     @Column(name = "lecture_option_id")
     private Long id;
 
-    @Version
-    private Long version;
-
     @Description("잔여좌석")
     private Integer seats;
 

@@ -22,6 +22,12 @@ public class LectureRepositoryImpl implements LectureRepository {
     }
 
     @Override
+    public Lecture findByIdForUpdate(Long id) {
+        Optional<Lecture> lecture = lectureJpaRepository.findByIdForUpdate(id);
+        return lecture.orElse(null);
+    }
+
+    @Override
     public List<Lecture> findByDate(LocalDate date) {
         return lectureJpaRepository.findByDate(date);
     }
