@@ -61,10 +61,13 @@ public class Lecture {
     }
 
     public void verifyEnrollmentAvailable(LocalDateTime now) {
-        this.options = this.options.stream()
+        List<LectureOption> verified = this.options.stream()
                 .filter(this::isNotFull)
                 .filter(option -> this.isNotExpired(option, now))
                 .toList();
+
+        this.options.clear();
+        this.options.addAll(verified);
     }
 
     public boolean isNotFull(LectureOption option) {

@@ -23,6 +23,6 @@ public class LectureRepositoryImpl implements LectureRepository {
 
     @Override
     public List<Lecture> findByDate(LocalDate date) {
-        return lectureJpaRepository.findByOptionsDate(date);
+        return lectureJpaRepository.findByDate(date);
     }
 }

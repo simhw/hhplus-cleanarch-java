@@ -18,6 +18,10 @@ public class LectureService {
 
     @Transactional(readOnly = true)
     public List<Lecture> lectures(LocalDate date) {
+        if (date == null) {
+            date = LocalDate.now();
+        }
+
         LocalDateTime now = LocalDateTime.now();
         List<Lecture> lectures = lectureRepository.findByDate(date);
 
@@ -27,4 +31,10 @@ public class LectureService {
 
         return lectures;
     }
+
+    @Transactional(readOnly = true)
+    public Lecture lecture(Long lectureId) {
+        return lectureRepository.findById(lectureId);
+    }
+
 }
